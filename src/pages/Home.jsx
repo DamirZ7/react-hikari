@@ -12,8 +12,9 @@ import { SearchContext } from '../App'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const categoryId = useSelector((state) => state.filter.categoryId)
-  const sortType = useSelector((state) => state.filter.sort.sortProperty)
+  const { categoryId, sort } = useSelector((state) => state.filter)
+
+  // const sortType = useSelector((state) => state.filter.sort.sortProperty)
 
   const { searchValue } = useContext(SearchContext)
   const [items, setItems] = useState([])
@@ -29,8 +30,8 @@ const Home = () => {
   useEffect(() => {
     const categoryBy = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
-    const sortBy = sortType.replace('-', '')
-    const order = sortType.includes('-') ? 'asc' : 'desc'
+    const sortBy = sort.sortProperty.replace('-', '')
+    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
     setIsLoading(true)
     fetch(
       `https://628f0d9a0e69410599d480ad.mockapi.io/items?page=${currentPage}&limit=4&${categoryBy}&sortBy=${sortBy}&order=${order}${search}`,
@@ -41,7 +42,7 @@ const Home = () => {
         setIsLoading(false)
       })
     window.scrollTo(0, 0)
-  }, [categoryId, sortType, searchValue, currentPage])
+  }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
   const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />)
