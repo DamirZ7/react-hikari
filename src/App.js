@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react'
+
 import { Routes, Route } from 'react-router-dom'
 
 import logo from './logo.svg'
@@ -15,6 +16,7 @@ console.log(SearchContext)
 
 function App() {
   const [searchValue, setSearchValue] = useState('')
+
   return (
     <div className='wrapper'>
       <SearchContext.Provider value={{ searchValue, setSearchValue }}>
